@@ -68,9 +68,10 @@ public final class FieldStationWorld {
     private static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         ServerLevel level = (ServerLevel) player.level();
+        // Always ensure the physical RV structure is built at (RV_X, RV_Z)
+        BlockPos rvPos = buildPhysicalRvStructure(level);
         if (!player.entityTags().contains("fieldstation:arrived")) {
             player.addTag("fieldstation:arrived");
-            BlockPos rvPos = buildPhysicalRvStructure(level);
             player.teleportTo(rvPos.getX() + 0.5, rvPos.getY(), rvPos.getZ() + 0.5);
             giveStarterKit(player);
             player.sendSystemMessage(Component.literal(
@@ -78,6 +79,9 @@ public final class FieldStationWorld {
                 "Your RV is parked right here at (" + rvPos.getX() + ", " + rvPos.getY() + ", " + rvPos.getZ() + ").\n" +
                 "Laurel Spring & Hemlock Run are just to the East (X=100), and Miller Pond is South at (X=88, Z=96).\n" +
                 "Use '/fieldstation rv' anytime to return to your RV!"));
+        } else if (player.distanceToSqr(rvPos.getX(), rvPos.getY(), rvPos.getZ()) > 250000) {
+            player.sendSystemMessage(Component.literal(
+                "[Field Station] Your RV & Cove Valley are built at (" + rvPos.getX() + ", " + rvPos.getY() + ", " + rvPos.getZ() + "). Run '/fieldstation rv' to teleport there!"));
         }
     }
 
@@ -100,11 +104,9 @@ public final class FieldStationWorld {
     /** Builds the physical 5x12 RV structure (3x10 interior + cab + living + lab + drone pad) at (RV_X, surfaceY, RV_Z). */
     public static BlockPos buildPhysicalRvStructure(ServerLevel level) {
         CoveSim sim = FieldStationApi.sim();
-        if (sim.landmarks.isEmpty()) {
-            sim.buildAppalachianCove();
-        }
-        int baseY = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RV_X, RV_Z);
-        if (baseY < 64) baseY = 74;
+        sim.buildAppalachianCove();
+        int rvIdx = CoveSim.idx(RV_X, RV_Z);
+        int baseY = sim.groundEighths(rvIdx) / 8;
 
         Block rvBed = FieldStationContent.REGISTERED_BLOCKS.get("rv_bed").get();
         Block rvComputer = FieldStationContent.REGISTERED_BLOCKS.get("rv_computer").get();
@@ -115,11 +117,14 @@ public final class FieldStationWorld {
         Block compostBin = FieldStationContent.REGISTERED_BLOCKS.get("compost_bin").get();
         Block seedVault = FieldStationContent.REGISTERED_BLOCKS.get("seed_vault").get();
 
-        // Gravel RV Pad (12 x 8)
+        // Solid foundation + Gravel RV Pad (dx=-2..9, dz=-2..11) so it stands solidly even over an ocean
         for (int dz = -2; dz <= 11; dz++) {
-            for (int dx = -2; dx <= 6; dx++) {
+            for (int dx = -2; dx <= 9; dx++) {
+                for (int y = 58; y < baseY - 1; y++) {
+                    level.setBlock(new BlockPos(RV_X + dx, y, RV_Z + dz), Blocks.STONE.defaultBlockState(), 3);
+                }
                 level.setBlock(new BlockPos(RV_X + dx, baseY - 1, RV_Z + dz), Blocks.GRAVEL.defaultBlockState(), 3);
-                for (int dy = 0; dy <= 5; dy++) {
+                for (int dy = 0; dy <= 8; dy++) {
                     level.setBlock(new BlockPos(RV_X + dx, baseY + dy, RV_Z + dz), Blocks.AIR.defaultBlockState(), 3);
                 }
             }
@@ -243,35 +248,86 @@ public final class FieldStationWorld {
         rules.set(GameRules.MAX_ENTITY_CRAMMING, 0, event.getServer());
 
         CoveSim sim = FieldStationApi.sim();
-        // Write up to 256 dirty columns per tick (World Writer budget)
+        BlockPos.MutableBlockPos mpos = new BlockPos.MutableBlockPos();
+        // Write up to 2500 dirty columns per tick (so the entire 200x200 Cove valley sculpts in ~16 ticks = <1 second!)
+        int scanned = 0;
         int written = 0;
-        for (int col = sim.dirtyColumns.nextSetBit(0); col >= 0 && written < 256; col = sim.dirtyColumns.nextSetBit(col + 1)) {
-            sim.dirtyColumns.clear(col);
+        for (int col = sim.dirtyColumns.nextSetBit(0); col >= 0 && written < 2500 && scanned < CoveSim.COLS; col = sim.dirtyColumns.nextSetBit(col + 1)) {
+            scanned++;
             int x = col % CoveSim.SIZE;
             int z = col / CoveSim.SIZE;
             // Don't overwrite the RV pad footprint
-            if (x >= RV_X - 2 && x <= RV_X + 9 && z >= RV_Z - 2 && z <= RV_Z + 11) continue;
+            if (x >= RV_X - 2 && x <= RV_X + 9 && z >= RV_Z - 2 && z <= RV_Z + 11) {
+                sim.dirtyColumns.clear(col);
+                continue;
+            }
 
-            BlockPos checkPos = new BlockPos(x, 64, z);
-            if (!overworld.isLoaded(checkPos)) continue;
+            mpos.set(x, 64, z);
+            if (!overworld.isLoaded(mpos)) {
+                continue;
+            }
+            sim.dirtyColumns.clear(col);
 
             int groundEighths = sim.groundEighths(col);
             int topBlockY = groundEighths / 8;
             int remLayers = groundEighths % 8;
             int waterLvls = sim.waterLevels[col];
 
-            // Under water: render top soil block as whole block if >= 4 layers, else remove (no air gap)
+            // 1. Fill solid foundation from Y=58 up to topBlockY - 1 so oceans/ravines become the Appalachian Cove valley
+            int stoneTop = sim.stoneTopY[col];
+            for (int y = 58; y < topBlockY; y++) {
+                mpos.set(x, y, z);
+                BlockState fillState = (y <= stoneTop)
+                    ? Blocks.STONE.defaultBlockState()
+                    : (y < topBlockY - 1 ? Blocks.COARSE_DIRT.defaultBlockState() : Blocks.GRASS_BLOCK.defaultBlockState());
+                if (waterLvls > 0 && y == topBlockY - 1) {
+                    fillState = (sim.clayLayers[col] > 0) ? Blocks.CLAY.defaultBlockState() : Blocks.GRAVEL.defaultBlockState();
+                } else if (sim.seeded[col] == CoveSim.SEED_NONE && y == topBlockY - 1 && !sim.treeCanopy[col]) {
+                    fillState = Blocks.DIRT_PATH.defaultBlockState();
+                }
+                overworld.setBlock(mpos, fillState, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+            }
+
+            // 2. Clear any vanilla ocean water or trees above the Cove valley floor
+            int clearStartY = topBlockY + (waterLvls > 0 ? 2 : 1);
+            for (int y = clearStartY; y <= Math.max(clearStartY + 6, 72); y++) {
+                mpos.set(x, y, z);
+                BlockState existing = overworld.getBlockState(mpos);
+                if (!existing.isAir()) {
+                    overworld.setBlock(mpos, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+                }
+            }
+
+            // 3. Under water: render top soil block as whole block if >= 4 layers, else remove (no air gap)
             if (waterLvls > 0) {
                 int waterBaseY = (remLayers >= 4) ? topBlockY + 1 : topBlockY;
+                if (remLayers >= 4) {
+                    mpos.set(x, topBlockY, z);
+                    overworld.setBlock(mpos, Blocks.GRAVEL.defaultBlockState(), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+                }
                 BlockState waterState = FFFluidUtils.getBlockForFluidByAmount(Fluids.WATER, Math.min(8, waterLvls));
-                overworld.setBlock(new BlockPos(x, waterBaseY, z), waterState, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+                mpos.set(x, waterBaseY, z);
+                overworld.setBlock(mpos, waterState, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
             } else if (remLayers > 0) {
                 BlockState layerState = Blocks.DIRT.defaultBlockState();
                 Block topsoil = BuiltInRegistries.BLOCK.getValue(Identifier.fromNamespaceAndPath("fieldstation", "topsoil"));
                 if (topsoil != null && topsoil != Blocks.AIR && topsoil.defaultBlockState().hasProperty(SnowLayerBlock.LAYERS)) {
                     layerState = topsoil.defaultBlockState().setValue(SnowLayerBlock.LAYERS, remLayers);
                 }
-                overworld.setBlock(new BlockPos(x, topBlockY, z), layerState, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+                mpos.set(x, topBlockY, z);
+                overworld.setBlock(mpos, layerState, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+            } else {
+                // Surface flora / reeds / grass on full blocks
+                mpos.set(x, topBlockY, z);
+                if (sim.seeded[col] == CoveSim.SEED_REED) {
+                    Block cattail = FieldStationContent.REGISTERED_BLOCKS.get("broadleaf_cattail").get();
+                    overworld.setBlock(mpos, cattail.defaultBlockState(), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+                } else if (sim.seeded[col] == CoveSim.SEED_GRASS && (x + z * 7) % 5 == 0) {
+                    Block grass = FieldStationContent.REGISTERED_BLOCKS.get("little_bluestem").get();
+                    overworld.setBlock(mpos, grass.defaultBlockState(), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+                } else {
+                    overworld.setBlock(mpos, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+                }
             }
             written++;
         }
