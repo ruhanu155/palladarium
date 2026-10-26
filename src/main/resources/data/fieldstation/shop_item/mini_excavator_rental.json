@@ -1,0 +1,9 @@
+{
+    "item":  "fieldstation:rental_key",
+    "count":  1,
+    "price_dollars":  250,
+    "tier":  "technician",
+    "category":  "rental",
+    "delivery":  "truck",
+    "seasonal_price_multiplier":  1
+}

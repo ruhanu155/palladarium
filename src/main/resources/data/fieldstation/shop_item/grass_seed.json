@@ -1,0 +1,9 @@
+{
+    "item":  "fieldstation:seed_pouch",
+    "count":  40,
+    "price_dollars":  20,
+    "tier":  "starter",
+    "category":  "seed",
+    "delivery":  "drone",
+    "seasonal_price_multiplier":  1
+}

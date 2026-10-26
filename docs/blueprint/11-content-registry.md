@@ -141,7 +141,7 @@ Arrays are stored as primitive arrays (`ByteArrayTag`, `IntArrayTag`), about 2.5
 - The plot's origin is block (0, 0); it spans x and z 0–199, which is chunks 0–12 (13 × 13). Columns outside 0–199 are not simulated.
 - Beyond the plot, the dimension generates vanilla mountain terrain.
 - No monster spawns anywhere, and no vanilla passive animals on the plot.
-- `minecraft:spawn_phantoms`, `minecraft:spawn_patrols`, `minecraft:spawn_wandering_traders` and `minecraft:raids` are set to false, so phantoms, patrols, traders and raids never happen (check the exact 26.2 names at M0).
+- `minecraft:spawn_monsters`, `minecraft:spawn_phantoms`, `minecraft:spawn_patrols`, `minecraft:spawn_wandering_traders`, `minecraft:spawn_wardens` and `minecraft:raids` are set to false, so monsters, phantoms, patrols, traders, wardens and raids never happen (verified in 26.2 `GameRules`).
 - Vanilla time advance is off in `fieldstation:appalachia`; the clock package sets the dimension's clock.
 
 **Advancements** (tab: Field Station):

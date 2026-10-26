@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "all":  "minecraft:block/short_grass"
+                 },
+    "parent":  "minecraft:block/cube_all"
+}

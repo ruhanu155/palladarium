@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/rv_bed",
+                  "type":  "minecraft:model"
+              }
+}

@@ -1,0 +1,37 @@
+{
+    "species":  "fieldstation:barred_owl",
+    "group":  "bird",
+    "opening_clue":  {
+                         "kind":  "feather",
+                         "text_key":  "fieldstation.mystery.barred_owl.opening"
+                     },
+    "clue_methods":  [
+                         "audio_recorder",
+                         "camera_trap"
+                     ],
+    "clues":  [
+                  {
+                      "rules_out":  "great_horned_owl",
+                      "reveals":  "season"
+                  },
+                  {
+                      "rules_out":  "eastern_screech_owl",
+                      "reveals":  "microhabitat"
+                  },
+                  {
+                      "rules_out":  "red_tailed_hawk",
+                      "reveals":  "active_hours"
+                  }
+              ],
+    "decoys":  [
+                   "great_horned_owl",
+                   "eastern_screech_owl",
+                   "red_tailed_hawk"
+               ],
+    "confirm_methods":  [
+                            "binoculars",
+                            "camera_trap",
+                            "capture",
+                            "sketch"
+                        ]
+}

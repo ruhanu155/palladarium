@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/tag_reader",
+                  "type":  "minecraft:model"
+              }
+}

@@ -1,0 +1,37 @@
+{
+    "species":  "fieldstation:southern_flying_squirrel",
+    "group":  "mammal",
+    "opening_clue":  {
+                         "kind":  "sign",
+                         "text_key":  "fieldstation.mystery.southern_flying_squirrel.opening"
+                     },
+    "clue_methods":  [
+                         "camera_trap",
+                         "thermal_camera"
+                     ],
+    "clues":  [
+                  {
+                      "rules_out":  "gray_squirrel",
+                      "reveals":  "season"
+                  },
+                  {
+                      "rules_out":  "eastern_chipmunk",
+                      "reveals":  "microhabitat"
+                  },
+                  {
+                      "rules_out":  "white_footed_mouse",
+                      "reveals":  "active_hours"
+                  }
+              ],
+    "decoys":  [
+                   "gray_squirrel",
+                   "eastern_chipmunk",
+                   "white_footed_mouse"
+               ],
+    "confirm_methods":  [
+                            "binoculars",
+                            "camera_trap",
+                            "capture",
+                            "sketch"
+                        ]
+}

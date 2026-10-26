@@ -1,0 +1,37 @@
+{
+    "species":  "fieldstation:timber_rattlesnake",
+    "group":  "reptile",
+    "opening_clue":  {
+                         "kind":  "shed",
+                         "text_key":  "fieldstation.mystery.timber_rattlesnake.opening"
+                     },
+    "clue_methods":  [
+                         "day_sighting",
+                         "camera_trap"
+                     ],
+    "clues":  [
+                  {
+                      "rules_out":  "eastern_rat_snake",
+                      "reveals":  "season"
+                  },
+                  {
+                      "rules_out":  "northern_water_snake",
+                      "reveals":  "microhabitat"
+                  },
+                  {
+                      "rules_out":  "copperhead",
+                      "reveals":  "active_hours"
+                  }
+              ],
+    "decoys":  [
+                   "eastern_rat_snake",
+                   "northern_water_snake",
+                   "copperhead"
+               ],
+    "confirm_methods":  [
+                            "binoculars",
+                            "camera_trap",
+                            "capture",
+                            "sketch"
+                        ]
+}

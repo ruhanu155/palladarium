@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/silt_fence",
+                  "type":  "minecraft:model"
+              }
+}

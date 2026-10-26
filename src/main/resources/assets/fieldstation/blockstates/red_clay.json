@@ -1,0 +1,52 @@
+{
+    "variants":  {
+                     "layers=1,packed=false":  {
+                                                   "model":  "fieldstation:block/red_clay_height2"
+                                               },
+                     "layers=1,packed=true":  {
+                                                  "model":  "fieldstation:block/red_clay_height2"
+                                              },
+                     "layers=2,packed=false":  {
+                                                   "model":  "fieldstation:block/red_clay_height4"
+                                               },
+                     "layers=2,packed=true":  {
+                                                  "model":  "fieldstation:block/red_clay_height4"
+                                              },
+                     "layers=3,packed=false":  {
+                                                   "model":  "fieldstation:block/red_clay_height6"
+                                               },
+                     "layers=3,packed=true":  {
+                                                  "model":  "fieldstation:block/red_clay_height6"
+                                              },
+                     "layers=4,packed=false":  {
+                                                   "model":  "fieldstation:block/red_clay_height8"
+                                               },
+                     "layers=4,packed=true":  {
+                                                  "model":  "fieldstation:block/red_clay_height8"
+                                              },
+                     "layers=5,packed=false":  {
+                                                   "model":  "fieldstation:block/red_clay_height10"
+                                               },
+                     "layers=5,packed=true":  {
+                                                  "model":  "fieldstation:block/red_clay_height10"
+                                              },
+                     "layers=6,packed=false":  {
+                                                   "model":  "fieldstation:block/red_clay_height12"
+                                               },
+                     "layers=6,packed=true":  {
+                                                  "model":  "fieldstation:block/red_clay_height12"
+                                              },
+                     "layers=7,packed=false":  {
+                                                   "model":  "fieldstation:block/red_clay_height14"
+                                               },
+                     "layers=7,packed=true":  {
+                                                  "model":  "fieldstation:block/red_clay_height14"
+                                              },
+                     "layers=8,packed=false":  {
+                                                   "model":  "fieldstation:block/red_clay_height16"
+                                               },
+                     "layers=8,packed=true":  {
+                                                  "model":  "fieldstation:block/red_clay_height16"
+                                              }
+                 }
+}

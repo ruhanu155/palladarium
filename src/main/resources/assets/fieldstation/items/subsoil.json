@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/subsoil",
+                  "type":  "minecraft:model"
+              }
+}

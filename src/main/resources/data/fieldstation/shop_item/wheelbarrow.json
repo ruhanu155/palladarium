@@ -1,0 +1,9 @@
+{
+    "item":  "fieldstation:wheelbarrow",
+    "count":  1,
+    "price_dollars":  80,
+    "tier":  "starter",
+    "category":  "tool",
+    "delivery":  "drone",
+    "seasonal_price_multiplier":  1
+}

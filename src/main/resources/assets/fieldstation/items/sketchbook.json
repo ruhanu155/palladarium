@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/sketchbook",
+                  "type":  "minecraft:model"
+              }
+}

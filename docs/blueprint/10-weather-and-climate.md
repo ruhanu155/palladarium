@@ -240,7 +240,7 @@ Shown rate = peak rate × hour factor × (1 − cloud cover) × sky factor. The 
 
 **Counting.** Lying on the star blanket (Insects and bugs), the player taps use on each meteor. A count within ±20% of the server's tally for that hour is logged in the journal. 10 or more counted in one night logs a "meteor night" field moment, and the first Milky Way seen logs one too. A counted peak night pays +3 reputation and 2 SC.
 
-**In Minecraft.** The dimension's custom sky rendering for `fieldstation:appalachia` (DimensionSpecialEffects or its 26.2 replacement; check at M0) draws the Milky Way as a band texture at the opacity above, and meteors as short streak quads. The server rolls each meteor's time and track from the day seed and sends the next hour's list, so the client shows exactly what the server counts. Cost: one small list per game hour, under 0.01 ms.
+**In Minecraft.** The dimension's custom sky rendering for `fieldstation:appalachia` (`SkyRenderer` / `RenderLevelStageEvent` in 26.2) draws the Milky Way as a band texture at the opacity above, and meteors as short streak quads. The server rolls each meteor's time and track from the day seed and sends the next hour's list, so the client shows exactly what the server counts. Cost: one small list per game hour, under 0.01 ms.
 
 **GameTests.**
 
@@ -271,7 +271,7 @@ Players learn to shelter without being punished.
 
 ## Weather in Minecraft
 
-- **Our model drives vanilla's visuals.** The vanilla weather cycle is turned off (game rule `minecraft:advance_weather` false; check the exact 26.2 name at M0). The model sets vanilla's rain and thunder levels each game hour, so vanilla rain, thunder and snow visuals show our weather.
+- **Our model drives vanilla's visuals.** The vanilla weather cycle is turned off (game rule `minecraft:advance_weather` false, `GameRules.ADVANCE_WEATHER`). The model sets vanilla's rain and thunder levels each game hour, so vanilla rain, thunder and snow visuals show our weather.
 - **One weather per plot.** Each biome dimension has its own model and state, synced to the client.
 - **Fog** is drawn as a height-limited layer that follows the microclimate map, so it fills the cove floor and leaves the ridge clear.
 - **Snow and ice are real blocks.** The model places vanilla snow layers per column and melts them by the snowpack rules. Freezing turns the top water levels of still columns into `fieldstation:ice_layer` blocks with the same level count; thaw reverses it, and water is conserved. Flowing water never freezes.

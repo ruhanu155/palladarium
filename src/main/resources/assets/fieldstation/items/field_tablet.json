@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/field_tablet",
+                  "type":  "minecraft:model"
+              }
+}

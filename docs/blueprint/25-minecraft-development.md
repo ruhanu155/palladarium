@@ -9,13 +9,13 @@ The pin is the newest Minecraft version with a stable NeoForge release and relea
 | Piece | Version | Notes |
 | --- | --- | --- |
 | Minecraft Java | 26.2 | Unobfuscated, Mojang names, no remapping |
-| NeoForge | 26.2.0.88 | Stable |
+| NeoForge | 26.2.0.93 | Stable |
 | Java | 25 | Temurin 25 on the Mac |
 | Gradle | 9.1 or later | Wrapper checked into the repo |
-| Build plugin | ModDevGradle | Newest release at M0 |
+| Build plugin | ModDevGradle 2.0.148 | Pinned at M0 |
 | Flowing Fluids | 1.0.7, NeoForge build for 26.2 | Required. Finite, flowing water that the erosion system reads |
 | GeckoLib | 5.5.6 for 26.2 | Required for animated animals |
-| JUnit 5, ArchUnit | Newest at M0 | Tests only |
+| JUnit 5, ArchUnit | JUnit 6.1.3, ArchUnit 1.5.1 | Tests only |
 | spark | Newest at M0 | Profiling, dev runs only |
 
 Curios is not used: Field Station adds no extra equipment slots.
@@ -28,7 +28,7 @@ Rules:
 
 ## Repo and workflow
 
-- **Repo:** proposed name `ruhanu155/field-station`. It does not exist yet; Ruhan confirms the name before it is created.
+- **Repo:** `ruhanu155/palladarium` (mod id `fieldstation`).
 - **Builds:** on Ruhan's Mac (`./gradlew runClient`, `./gradlew build`) and in CI on every pull request.
 - **Branches:** all work happens on `dev/<department>/<topic>` (for example `dev/water/stream-power-erosion`) and lands by pull request. Nobody pushes to `main`.
 - **Versions:** `MAJOR.MINOR.PATCH+mc<version>`. Before 1.0 the minor is the milestone, so the v0.1 release is `0.1.0+mc26.2`.
@@ -107,7 +107,7 @@ Screen view-models are records in `com.fieldstation.api.view`, built by the owni
 
 Time in Minecraft is ticks, and Field Station runs fast on purpose: growth and erosion should be visible in days, not months. One package, `clock`, turns ticks into sim time and sets each system's rate. The clock package is the only reader and writer of time, and an ArchUnit rule enforces that.
 
-- **State:** it stores `long sim_ticks` in `fieldstation:clock` and owns the `fieldstation:appalachia` world clock (26.1 per-dimension `WorldClock`). It sets that clock from `sim_ticks` and turns vanilla time advance off for the dimension (check the exact 26.2 name at M0).
+- **State:** it stores `long sim_ticks` in `fieldstation:clock` and owns the `fieldstation:appalachia` world clock (`net.minecraft.world.clock.WorldClock` via `ServerClockManager`). It sets that clock from `sim_ticks` (`ServerClockManager#setTotalTicks`) and pauses vanilla time advance on the clock (`ServerClockManager#setPaused(clock, true)` / `minecraft:advance_time` false).
 - **What it provides:** `simTicks()`, `simHours()`, `season()`, `dayOfSeason()`, `year()`, and `rate(channel)` for the channels world, water, erosion, growth, populations and weather.
 - **Rates:** 1.0 by default. They are multiplied by the settings `fieldstation:erosion_multiplier` (erosion), `fieldstation:rain_multiplier` (weather input) and the difficulty preset, never inside a system's own maths.
 - **Time-lapse:** speeds up to `max_time_speed` (60) by giving each system a larger dt, capped at 200 sim ticks per system step. Above that cap, a system runs more steps.
@@ -138,20 +138,20 @@ Every vanilla system the design changes is switched off on purpose, not left to 
 
 | Vanilla system | Field Station | How | Status |
 | --- | --- | --- | --- |
-| Hostile mobs | None, anywhere | `EntityJoinLevelEvent`: if the entity is a `Mob` and its type is not in `#fieldstation:allowed_entities` (`data/fieldstation/tags/entity_type/allowed_entities.json`), cancel it. If the type is allowed but the wildlife or tame package did not spawn it (no `fieldstation:population_link` attachment and not a named or owned animal), also cancel it. Non-mob entities are never touched. Vanilla mobs reused by the Mobs tab are in the tag and have their vanilla breeding and spawn goals stripped. Game rules `minecraft:spawn_patrols`, `minecraft:spawn_wandering_traders`, `minecraft:spawn_wardens` and `minecraft:spawn_phantoms` set to false (check every vanilla rule id against the 26.2 game rule registry at M0, `/gamerule` tab-complete) | Decided |
-| Vanilla animals (cow, pig, sheep and so on) | Replaced by the cove's real species | Natural spawning off (`minecraft:spawn_mobs` false; check the exact 26.2 name at M0); the `wildlife` package spawns entities from populations only. The same allow-list removes vanilla animals | Decided |
-| Mob drops | No loot tables for animals | `minecraft:mob_drops` false (check the exact 26.2 name at M0). A natural death adds to the habitat's decomposer food; no carcass entity or block appears | Decided |
+| Hostile mobs | None, anywhere | `EntityJoinLevelEvent`: if the entity is a `Mob` and its type is not in `#fieldstation:allowed_entities` (`data/fieldstation/tags/entity_type/allowed_entities.json`), cancel it. If the type is allowed but the wildlife or tame package did not spawn it (no `fieldstation:population_link` attachment and not a named or owned animal), also cancel it. Non-mob entities are never touched. Vanilla mobs reused by the Mobs tab are in the tag and have their vanilla breeding and spawn goals stripped. Game rules `minecraft:spawn_monsters`, `minecraft:spawn_patrols`, `minecraft:spawn_wandering_traders`, `minecraft:spawn_wardens`, `minecraft:spawn_phantoms` and `minecraft:raids` set to false (verified in 26.2 `GameRules`) | Decided |
+| Vanilla animals (cow, pig, sheep and so on) | Replaced by the cove's real species | Natural spawning off (`minecraft:spawn_mobs` false, `GameRules.SPAWN_MOBS`); the `wildlife` package spawns entities from populations only. The same allow-list removes vanilla animals | Decided |
+| Mob drops | No loot tables for animals | `minecraft:mob_drops` false (`GameRules.MOB_DROPS`). A natural death adds to the habitat's decomposer food; no carcass entity or block appears | Decided |
 | Hunger | No vanilla hunger. Food and sleep needs are a player option (`player_needs`: off, comfort or real) | Food bar hidden through NeoForge GUI layer registration; vanilla hunger never drains. The `player` package runs the needs option on the energy bar (Player and tools → Food and sleep) | Decided |
 | Sleep | Skips the night and restores energy | The RV bed (`rv_bed`) calls the clock's night time-lapse | Decided |
 | Death | Wake in the RV bed with all items, −20 energy | `minecraft:keep_inventory` true; `LivingDeathEvent` on the player applies the energy cost; respawn at `rv_bed` | Decided |
 | Crafting | A mix of crafting, drone purchases and earned drops | A built-in data pack filters vanilla recipes down to the allowed set; our recipes name a station and an unlock | Decided |
-| Weather | Field Station's own weather | `minecraft:advance_weather` false (check the exact 26.2 name at M0); the `weather` package sets vanilla rain and thunder only as visuals | Decided |
-| Fire | Only controlled burns, under permit | `minecraft:fire_spread_radius_around_player` 0 (vanilla fire never spreads; check the exact 26.2 name at M0); the burn tool runs Field Station's own fire spread | Decided |
+| Weather | Field Station's own weather | `minecraft:advance_weather` false (`GameRules.ADVANCE_WEATHER`); the `weather` package sets vanilla rain and thunder only as visuals | Decided |
+| Fire | Only controlled burns, under permit | `minecraft:fire_spread_radius_around_player` 0 (`GameRules.FIRE_SPREAD_RADIUS_AROUND_PLAYER`; vanilla fire never spreads); the burn tool runs Field Station's own fire spread | Decided |
 | Bone meal | Replaced by compost. Growth comes from soil, water and light; compost adds soil nutrients | Vanilla bone meal is removed: the built-in data pack drops its recipes and loot, and it is hidden from the creative tab. `fieldstation:compost` from the compost bin raises soil nutrients on a 3 × 3 patch instead (Plants → Compost) | Decided (compost replaces it) |
 | Villages and structures | No villages | Structures off in the `fieldstation:appalachia` dimension | Decided |
 | Ores and mining | Not a mining game | No ores in the dimension's worldgen | Decided |
 | Vanilla advancements | Replaced by Field Station's | Built-in data pack filters them out | Decided |
-| Entity cramming | No cramming damage in pens and tanks | `minecraft:max_entity_cramming` 0 (check the exact 26.2 name at M0) | Decided |
+| Entity cramming | No cramming damage in pens and tanks | `minecraft:max_entity_cramming` 0 (`GameRules.MAX_ENTITY_CRAMMING`) | Decided |
 | F3 coordinates | Kept: the game has no exploration tension to protect | No change | Decided |
 
 The smoke counts every Mob that joins the world and fails if it sees one banned type.
@@ -186,7 +186,7 @@ ArchUnit rules:
 
 - `sim` imports nothing from `net.minecraft` or `net.neoforged`.
 - System packages import each other only through `api`.
-- Only `com.fieldstation.clock` may call Level, WorldClock or ClockManager time methods (`getOverworldClockTime`, `getGameTime` and the 26.2 clock APIs; check the exact names with javap at M0).
+- Only `com.fieldstation.clock` may call `Level`, `LevelReader`, `WorldClock`, `ClockManager` or `ServerClockManager` time methods (`getGameTime`, `getOverworldClockTime`, `getDefaultClockTime`, `clockManager`, `getTotalTicks`, `setTotalTicks`, `addTicks`, `setPaused`, `setRate`, `moveToTimeMarker`).
 - Only `client` uses client classes.
 
 ## Performance budget
@@ -221,10 +221,10 @@ These are targets to measure in Milestone 1 with spark, not measurements. Popula
 
 ## M0: before the first line of game code
 
-- [ ] Ruhan confirms the repo name; create the repo.
-- [ ] Re-check NeoForge, ModDevGradle, Flowing Fluids and GeckoLib versions on the web; write them into `gradle.properties`.
-- [ ] Check the 26.2 clock API names with javap and every vanilla game rule id with `/gamerule` tab-complete; fix the names in this tab, Definitions, Content registry and Systems spec.
-- [ ] Generate the NeoForge project, mod id `fieldstation`, with the package map above as empty packages.
-- [ ] Add the ArchUnit rules, the `contentLint` task and the `smoke` task, all passing on the empty mod.
-- [ ] Add CI that runs `./gradlew smoke` on every pull request (client smoke where a virtual display exists).
+- [x] Ruhan confirms the repo name (`ruhanu155/palladarium`); create the repo.
+- [x] Re-check NeoForge, ModDevGradle, Flowing Fluids and GeckoLib versions on the web; write them into `gradle.properties`.
+- [x] Check the 26.2 clock API names with javap and every vanilla game rule id in `GameRules`; fix the names in this tab, Definitions, Content registry and Systems spec.
+- [x] Generate the NeoForge project, mod id `fieldstation`, with the package map above as empty packages.
+- [x] Add the ArchUnit rules, the `contentLint` task and the `smoke` task, all passing on the empty mod.
+- [x] Add CI that runs `./gradlew smoke` on every pull request (client smoke where a virtual display exists).
 - [ ] Boot the empty mod on the Mac with Flowing Fluids loaded. This is Milestone 1's task 1.

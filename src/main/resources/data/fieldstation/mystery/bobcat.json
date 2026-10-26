@@ -1,0 +1,36 @@
+{
+    "species":  "fieldstation:bobcat",
+    "group":  "mammal",
+    "opening_clue":  {
+                         "kind":  "track",
+                         "text_key":  "fieldstation.mystery.bobcat.opening"
+                     },
+    "clue_methods":  [
+                         "camera_trap"
+                     ],
+    "clues":  [
+                  {
+                      "rules_out":  "gray_fox",
+                      "reveals":  "season"
+                  },
+                  {
+                      "rules_out":  "coyote",
+                      "reveals":  "microhabitat"
+                  },
+                  {
+                      "rules_out":  "house_cat",
+                      "reveals":  "active_hours"
+                  }
+              ],
+    "decoys":  [
+                   "gray_fox",
+                   "coyote",
+                   "house_cat"
+               ],
+    "confirm_methods":  [
+                            "binoculars",
+                            "camera_trap",
+                            "capture",
+                            "sketch"
+                        ]
+}

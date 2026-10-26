@@ -1,0 +1,37 @@
+{
+    "species":  "fieldstation:american_woodcock",
+    "group":  "bird",
+    "opening_clue":  {
+                         "kind":  "sign",
+                         "text_key":  "fieldstation.mystery.american_woodcock.opening"
+                     },
+    "clue_methods":  [
+                         "dusk_sighting",
+                         "audio_recorder"
+                     ],
+    "clues":  [
+                  {
+                      "rules_out":  "wilsons_snipe",
+                      "reveals":  "season"
+                  },
+                  {
+                      "rules_out":  "killdeer",
+                      "reveals":  "microhabitat"
+                  },
+                  {
+                      "rules_out":  "american_robin",
+                      "reveals":  "active_hours"
+                  }
+              ],
+    "decoys":  [
+                   "wilsons_snipe",
+                   "killdeer",
+                   "american_robin"
+               ],
+    "confirm_methods":  [
+                            "binoculars",
+                            "camera_trap",
+                            "capture",
+                            "sketch"
+                        ]
+}

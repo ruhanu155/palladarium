@@ -1,0 +1,36 @@
+{
+    "species":  "fieldstation:ring_necked_snake",
+    "group":  "reptile",
+    "opening_clue":  {
+                         "kind":  "shed",
+                         "text_key":  "fieldstation.mystery.ring_necked_snake.opening"
+                     },
+    "clue_methods":  [
+                         "cover_board"
+                     ],
+    "clues":  [
+                  {
+                      "rules_out":  "worm_snake",
+                      "reveals":  "season"
+                  },
+                  {
+                      "rules_out":  "garter_snake",
+                      "reveals":  "microhabitat"
+                  },
+                  {
+                      "rules_out":  "red_bellied_snake",
+                      "reveals":  "active_hours"
+                  }
+              ],
+    "decoys":  [
+                   "worm_snake",
+                   "garter_snake",
+                   "red_bellied_snake"
+               ],
+    "confirm_methods":  [
+                            "binoculars",
+                            "camera_trap",
+                            "capture",
+                            "sketch"
+                        ]
+}

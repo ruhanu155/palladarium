@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/field_bucket",
+                  "type":  "minecraft:model"
+              }
+}

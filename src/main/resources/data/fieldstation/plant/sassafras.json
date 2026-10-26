@@ -1,0 +1,33 @@
+{
+    "id":  "fieldstation:sassafras",
+    "group":  "canopy",
+    "layer":  "canopy",
+    "moisture":  [
+                     1,
+                     5
+                 ],
+    "light":  [
+                  4,
+                  15
+              ],
+    "soils":  [
+                  "fieldstation:topsoil",
+                  "fieldstation:silt"
+              ],
+    "depth_levels":  [
+                         0,
+                         0
+                     ],
+    "growth_hours":  360,
+    "spread_method":  "seed",
+    "spread_reach_blocks":  2,
+    "seed_season":  "fall",
+    "erosion_cover_fraction":  0.82,
+    "water_use_l_per_day":  2,
+    "phosphorus_uptake_g_per_day":  1,
+    "flood_tolerance_hours":  48,
+    "native_regions":  [
+                           "fieldstation:appalachia"
+                       ],
+    "invasive":  false
+}

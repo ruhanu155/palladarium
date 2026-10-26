@@ -1,0 +1,37 @@
+{
+    "species":  "fieldstation:mink",
+    "group":  "mammal",
+    "opening_clue":  {
+                         "kind":  "track",
+                         "text_key":  "fieldstation.mystery.mink.opening"
+                     },
+    "clue_methods":  [
+                         "camera_trap",
+                         "night_sighting"
+                     ],
+    "clues":  [
+                  {
+                      "rules_out":  "long_tailed_weasel",
+                      "reveals":  "season"
+                  },
+                  {
+                      "rules_out":  "river_otter",
+                      "reveals":  "microhabitat"
+                  },
+                  {
+                      "rules_out":  "raccoon",
+                      "reveals":  "active_hours"
+                  }
+              ],
+    "decoys":  [
+                   "long_tailed_weasel",
+                   "river_otter",
+                   "raccoon"
+               ],
+    "confirm_methods":  [
+                            "binoculars",
+                            "camera_trap",
+                            "capture",
+                            "sketch"
+                        ]
+}

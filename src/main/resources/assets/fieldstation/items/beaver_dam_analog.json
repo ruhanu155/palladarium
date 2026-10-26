@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/beaver_dam_analog",
+                  "type":  "minecraft:model"
+              }
+}

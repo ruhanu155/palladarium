@@ -1,0 +1,37 @@
+{
+    "species":  "fieldstation:tricolored_bat",
+    "group":  "bat",
+    "opening_clue":  {
+                         "kind":  "call",
+                         "text_key":  "fieldstation.mystery.tricolored_bat.opening"
+                     },
+    "clue_methods":  [
+                         "bat_detector",
+                         "dusk_sighting"
+                     ],
+    "clues":  [
+                  {
+                      "rules_out":  "little_brown_bat",
+                      "reveals":  "season"
+                  },
+                  {
+                      "rules_out":  "northern_long_eared_bat",
+                      "reveals":  "microhabitat"
+                  },
+                  {
+                      "rules_out":  "eastern_red_bat",
+                      "reveals":  "active_hours"
+                  }
+              ],
+    "decoys":  [
+                   "little_brown_bat",
+                   "northern_long_eared_bat",
+                   "eastern_red_bat"
+               ],
+    "confirm_methods":  [
+                            "binoculars",
+                            "camera_trap",
+                            "capture",
+                            "sketch"
+                        ]
+}

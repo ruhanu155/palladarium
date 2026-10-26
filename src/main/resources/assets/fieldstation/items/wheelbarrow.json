@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/wheelbarrow",
+                  "type":  "minecraft:model"
+              }
+}

@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/kick_net",
+                  "type":  "minecraft:model"
+              }
+}

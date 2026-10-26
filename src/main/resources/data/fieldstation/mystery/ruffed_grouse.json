@@ -1,0 +1,37 @@
+{
+    "species":  "fieldstation:ruffed_grouse",
+    "group":  "bird",
+    "opening_clue":  {
+                         "kind":  "call",
+                         "text_key":  "fieldstation.mystery.ruffed_grouse.opening"
+                     },
+    "clue_methods":  [
+                         "audio_recorder",
+                         "sighting"
+                     ],
+    "clues":  [
+                  {
+                      "rules_out":  "pileated_woodpecker",
+                      "reveals":  "season"
+                  },
+                  {
+                      "rules_out":  "wild_turkey",
+                      "reveals":  "microhabitat"
+                  },
+                  {
+                      "rules_out":  "american_woodcock",
+                      "reveals":  "active_hours"
+                  }
+              ],
+    "decoys":  [
+                   "pileated_woodpecker",
+                   "wild_turkey",
+                   "american_woodcock"
+               ],
+    "confirm_methods":  [
+                            "binoculars",
+                            "camera_trap",
+                            "capture",
+                            "sketch"
+                        ]
+}

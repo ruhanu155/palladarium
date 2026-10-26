@@ -1,0 +1,8 @@
+{
+    "textures":  {
+                     "texture":  "minecraft:block/gravel",
+                     "all":  "minecraft:block/gravel",
+                     "particle":  "minecraft:block/gravel"
+                 },
+    "parent":  "minecraft:block/snow_height4"
+}

@@ -1,0 +1,9 @@
+{
+    "item":  "fieldstation:wood_duck_box",
+    "count":  1,
+    "price_dollars":  45,
+    "tier":  "starter",
+    "category":  "habitat",
+    "delivery":  "drone",
+    "seasonal_price_multiplier":  1
+}

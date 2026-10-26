@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/mud",
+                  "type":  "minecraft:model"
+              }
+}

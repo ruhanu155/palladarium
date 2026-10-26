@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/coir_log",
+                  "type":  "minecraft:model"
+              }
+}

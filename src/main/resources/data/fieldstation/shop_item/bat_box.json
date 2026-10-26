@@ -1,0 +1,9 @@
+{
+    "item":  "fieldstation:bat_box",
+    "count":  1,
+    "price_dollars":  35,
+    "tier":  "starter",
+    "category":  "habitat",
+    "delivery":  "drone",
+    "seasonal_price_multiplier":  1
+}

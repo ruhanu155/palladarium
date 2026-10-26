@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/mycorrhizal_inoculant",
+                  "type":  "minecraft:model"
+              }
+}

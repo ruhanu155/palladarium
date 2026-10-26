@@ -3,7 +3,7 @@ import groovy.json.JsonSlurper
 // contentLint: enforces the studio data conventions on every JSON file under data/fieldstation/.
 //  - path is data/fieldstation/<kind>/<id>.json (one entry per file, no doubled namespace)
 //  - ids and file names are snake_case
-//  - every JSON key is snake_case (camelCase is rejected)
+//  - every JSON key is snake_case (camelCase is rejected; NeoForge data_maps values allow namespace:snake_case)
 tasks.register('contentLint') {
     group = 'verification'
     description = 'Checks data files against the Field Station naming conventions.'
@@ -12,13 +12,15 @@ tasks.register('contentLint') {
     doLast {
         def errors = []
         def snake = ~/^[a-z0-9_]+$/
+        def namespacedSnake = ~/^[a-z0-9_]+:[a-z0-9_\/]+$/
         def walk
         walk = { Object node, String file, String path ->
             if (node instanceof Map) {
+                boolean allowNamespacedKey = file.startsWith('data_maps/') && path.endsWith('values.')
                 node.each { k, v ->
                     String key = k.toString()
-                    // allow namespaced keys such as "fieldstation:unlock"? no: keys must be plain snake_case
-                    if (!(key ==~ snake)) errors << "${file}: key '${path}${key}' is not snake_case"
+                    boolean valid = (key ==~ snake) || (allowNamespacedKey && (key ==~ namespacedSnake))
+                    if (!valid) errors << "${file}: key '${path}${key}' is not snake_case"
                     walk(v, file, "${path}${key}.")
                 }
             } else if (node instanceof List) {

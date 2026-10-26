@@ -1,0 +1,9 @@
+{
+    "item":  "fieldstation:bluebird_box",
+    "count":  1,
+    "price_dollars":  30,
+    "tier":  "starter",
+    "category":  "habitat",
+    "delivery":  "drone",
+    "seasonal_price_multiplier":  1
+}

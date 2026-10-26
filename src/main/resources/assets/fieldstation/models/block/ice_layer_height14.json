@@ -1,0 +1,8 @@
+{
+    "textures":  {
+                     "texture":  "minecraft:block/ice",
+                     "all":  "minecraft:block/ice",
+                     "particle":  "minecraft:block/ice"
+                 },
+    "parent":  "minecraft:block/snow_height14"
+}

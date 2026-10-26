@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/topsoil",
+                  "type":  "minecraft:model"
+              }
+}

@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/drone_pad",
+                  "type":  "minecraft:model"
+              }
+}

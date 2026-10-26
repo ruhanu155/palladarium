@@ -1,0 +1,37 @@
+{
+    "species":  "fieldstation:red_salamander",
+    "group":  "amphibian",
+    "opening_clue":  {
+                         "kind":  "edna",
+                         "text_key":  "fieldstation.mystery.red_salamander.opening"
+                     },
+    "clue_methods":  [
+                         "night_sighting",
+                         "rock_flip"
+                     ],
+    "clues":  [
+                  {
+                      "rules_out":  "spotted_salamander",
+                      "reveals":  "season"
+                  },
+                  {
+                      "rules_out":  "dusky_salamander",
+                      "reveals":  "microhabitat"
+                  },
+                  {
+                      "rules_out":  "red_backed_salamander",
+                      "reveals":  "active_hours"
+                  }
+              ],
+    "decoys":  [
+                   "spotted_salamander",
+                   "dusky_salamander",
+                   "red_backed_salamander"
+               ],
+    "confirm_methods":  [
+                            "binoculars",
+                            "camera_trap",
+                            "capture",
+                            "sketch"
+                        ]
+}

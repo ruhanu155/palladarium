@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/benchmark_stake",
+                  "type":  "minecraft:model"
+              }
+}

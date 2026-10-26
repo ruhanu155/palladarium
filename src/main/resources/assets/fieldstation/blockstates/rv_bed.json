@@ -1,0 +1,7 @@
+{
+    "variants":  {
+                     "":  {
+                              "model":  "fieldstation:block/rv_bed"
+                          }
+                 }
+}

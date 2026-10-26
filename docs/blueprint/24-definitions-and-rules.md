@@ -186,7 +186,7 @@ The id comes from the file path (`fieldstation:green_frog`), and the display nam
 | Reward crates | Contents must be fixed, never random |
 | Native range | A species can't be released outside its declared native regions |
 
-**Required:** NeoForge 26.2.0.88, Flowing Fluids (NeoForge build), GeckoLib 5.5.6.
+**Required:** NeoForge 26.2.0.93, Flowing Fluids 1.0.7 (NeoForge build), GeckoLib 5.5.6.
 
 **Works alongside:** performance and cosmetic mods (Sodium, Iris, Distant Horizons) where they ship NeoForge 26.2 builds, and minimap mods.
 

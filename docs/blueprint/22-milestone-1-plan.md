@@ -100,11 +100,11 @@ On October 19, 2026, the studio reviewed the whole blueprint in three passes: en
 - [x] The "Proposed" rows in Minecraft development → Replacing vanilla (own weather, permit-only fire, no bone meal, no ores, vanilla advancements, cramming, F3). Decided October 19: all approved, and compost replaces bone meal. Rule ids are renamed to 26.2 names.
 - [x] Food and sleep for the player. Decided: a player option, off, comfort (default) or real.
 - [x] Keep or strike the new late-game money sinks (neighbor agreements, cove easement, larger RV). Decided: kept, plus a full Upgrades catalog (Upgrades tab).
-- [ ] Repo name (proposed `ruhanu155/field-station`): confirmed. Ruhan creates it on GitHub as a private repo, because Claude's GitHub connection can't create repos. Claude then sets it up at M0.
+- [x] Repo name: `ruhanu155/palladarium` (mod id `fieldstation`). Created on GitHub and initialized with the M0 scaffold.
 
 **M0 checks before code**
 
-- [ ] Re-check NeoForge, ModDevGradle, Flowing Fluids and GeckoLib versions on the web, and pin them in `gradle.properties`.
-- [ ] Confirm the 26.2 clock API names with javap and the game rule ids with `/gamerule`. Update every "(check at M0)" note.
+- [x] Re-check NeoForge, ModDevGradle, Flowing Fluids and GeckoLib versions on the web, and pin them in `gradle.properties` (NeoForge `26.2.0.93`, ModDevGradle `2.0.148`, Flowing Fluids `1.0.7` / `ynkJWrlk`, GeckoLib `5.5.6` / `IEGPh4CJ`, JUnit `6.1.3`, ArchUnit `1.5.1`).
+- [x] Confirm the 26.2 clock API names with javap (`ServerClockManager`, `ClockManager`, `WorldClock`, `Level#getOverworldClockTime`, `Level#getDefaultClockTime`, `LevelReader#getGameTime`) and the game rule ids in `net.minecraft.world.level.gamerules.GameRules`. Update every "(check at M0)" note.
 - [ ] Boot the empty mod with Flowing Fluids and GeckoLib on the Mac. Smoke, ArchUnit and contentLint pass in CI.
 - [ ] Run the test slice (task 1b) before tasks 4–8. If the Flowing Fluids API can't do the water handover, list the mixin it needs against the 8-mixin budget.

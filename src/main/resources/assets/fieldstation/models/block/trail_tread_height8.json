@@ -1,0 +1,8 @@
+{
+    "textures":  {
+                     "texture":  "minecraft:block/dirt_path_top",
+                     "all":  "minecraft:block/dirt_path_top",
+                     "particle":  "minecraft:block/dirt_path_top"
+                 },
+    "parent":  "minecraft:block/snow_height8"
+}

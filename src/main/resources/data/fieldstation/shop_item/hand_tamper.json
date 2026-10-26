@@ -1,0 +1,9 @@
+{
+    "item":  "fieldstation:hand_tamper",
+    "count":  1,
+    "price_dollars":  40,
+    "tier":  "starter",
+    "category":  "tool",
+    "delivery":  "drone",
+    "seasonal_price_multiplier":  1
+}

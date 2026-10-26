@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/rv_computer",
+                  "type":  "minecraft:model"
+              }
+}

@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/ramps",
+                  "type":  "minecraft:model"
+              }
+}

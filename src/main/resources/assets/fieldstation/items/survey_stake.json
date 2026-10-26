@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/survey_stake",
+                  "type":  "minecraft:model"
+              }
+}

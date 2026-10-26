@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "all":  "minecraft:block/quartz_block_side"
+                 },
+    "parent":  "minecraft:block/cube_all"
+}

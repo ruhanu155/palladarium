@@ -1,0 +1,9 @@
+{
+    "item":  "fieldstation:test_reagent",
+    "count":  10,
+    "price_dollars":  25,
+    "tier":  "starter",
+    "category":  "lab",
+    "delivery":  "drone",
+    "seasonal_price_multiplier":  1
+}

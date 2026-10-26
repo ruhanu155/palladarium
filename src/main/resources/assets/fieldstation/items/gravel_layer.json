@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/gravel_layer",
+                  "type":  "minecraft:model"
+              }
+}

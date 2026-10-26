@@ -6,6 +6,8 @@ import com.tngtech.archunit.core.importer.ImportOption;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 /** Studio package rules (Minecraft development tab -> Tests and the smoke -> ArchUnit rules). */
@@ -14,6 +16,10 @@ class ArchitectureTest {
         "terrain", "water", "soil", "plants", "habitat", "wildlife", "fish", "tame", "weather",
         "survey", "economy", "station", "player", "story", "world", "clock"
     };
+    private static final Set<String> TIME_METHODS = Set.of(
+        "getGameTime", "getOverworldClockTime", "getDefaultClockTime", "clockManager",
+        "getTotalTicks", "setTotalTicks", "addTicks", "setPaused", "setRate", "moveToTimeMarker"
+    );
     private static JavaClasses classes;
 
     @BeforeAll
@@ -52,12 +58,11 @@ class ArchitectureTest {
 
     @Test
     void onlyClockReadsWorldTime() {
-        // 26.1 moved time to per-dimension WorldClock. Confirm exact 26.2 method names with javap at the first build.
+        // 26.2 WorldClock / ClockManager / Level time methods (verified via javap against 26.2.0.93).
         noClasses().that().resideOutsideOfPackage("com.fieldstation.clock..")
             .should().callMethodWhere(com.tngtech.archunit.core.domain.JavaCall.Predicates.target(
-                com.tngtech.archunit.base.DescribedPredicate.describe("a world time method",
-                    t -> t.getName().equals("getDayTime") || t.getName().equals("getOverworldClockTime")
-                        || t.getName().equals("setDayTime"))))
+                com.tngtech.archunit.base.DescribedPredicate.describe("a world time or clock method",
+                    t -> TIME_METHODS.contains(t.getName()))))
             .allowEmptyShould(true).check(classes);
     }
 }

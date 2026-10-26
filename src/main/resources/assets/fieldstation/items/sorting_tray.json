@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/sorting_tray",
+                  "type":  "minecraft:model"
+              }
+}

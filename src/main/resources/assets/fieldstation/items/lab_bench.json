@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/lab_bench",
+                  "type":  "minecraft:model"
+              }
+}

@@ -1,0 +1,9 @@
+{
+    "item":  "fieldstation:sample_bottle",
+    "count":  3,
+    "price_dollars":  10,
+    "tier":  "starter",
+    "category":  "lab",
+    "delivery":  "drone",
+    "seasonal_price_multiplier":  1
+}

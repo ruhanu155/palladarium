@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/hand_tamper",
+                  "type":  "minecraft:model"
+              }
+}

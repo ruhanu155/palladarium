@@ -1,0 +1,64 @@
+{
+    "scientific_name":  "Sceloporus undulatus",
+    "category":  "wildlife",
+    "native_regions":  [
+                           "fieldstation:appalachia"
+                       ],
+    "microhabitats":  [
+                          "warm_slope"
+                      ],
+    "active_hours":  "day_night",
+    "goals":  [
+                  "flee",
+                  "hide",
+                  "forage",
+                  "call",
+                  "breed"
+              ],
+    "senses":  {
+                   "range_blocks":  12,
+                   "wariness":  0.8
+               },
+    "needs":  {
+                  "temp_stress_c":  32,
+                  "temp_active_c":  [
+                                        8,
+                                        30
+                                    ],
+                  "cover_min_fraction":  0.1,
+                  "skin_moisture":  true
+              },
+    "arrival":  {
+                    "min_reed_fraction":  0,
+                    "min_habitat_age_hours":  24,
+                    "min_area_blocks":  4,
+                    "chance_per_hour":  0.02
+                },
+    "breeding":  {
+                     "trigger":  "warm_water",
+                     "breeding_window":  "spring",
+                     "years_to_adult":  1,
+                     "young_per_female":  40,
+                     "adult_survival_per_year":  0.7,
+                     "young_survival_fraction":  0.25,
+                     "water_temp_min_c":  16
+                 },
+    "carrying_capacity_per_area":  0.2,
+    "isolated":  true,
+    "lifespan_years":  4,
+    "grant_dollars_per_day":  6,
+    "first_sighting_bonus_dollars":  35,
+    "protected":  false,
+    "mystery":  false,
+    "detect_chance_per_visit":  0.75,
+    "clue_methods":  [
+                         "camera_trap",
+                         "audio_recorder",
+                         "edna"
+                     ],
+    "sketch_time_s":  5,
+    "sounds":  {
+                   "alarm":  "fieldstation:fence_lizard.alarm",
+                   "call":  "fieldstation:fence_lizard.call"
+               }
+}

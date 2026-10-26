@@ -1,0 +1,9 @@
+{
+    "item":  "fieldstation:reed_plug",
+    "count":  20,
+    "price_dollars":  35,
+    "tier":  "starter",
+    "category":  "plant",
+    "delivery":  "drone",
+    "seasonal_price_multiplier":  1
+}

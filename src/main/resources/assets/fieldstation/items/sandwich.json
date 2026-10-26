@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/sandwich",
+                  "type":  "minecraft:model"
+              }
+}

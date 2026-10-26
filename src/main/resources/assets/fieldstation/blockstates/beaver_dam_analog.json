@@ -1,0 +1,7 @@
+{
+    "variants":  {
+                     "":  {
+                              "model":  "fieldstation:block/beaver_dam_analog"
+                          }
+                 }
+}

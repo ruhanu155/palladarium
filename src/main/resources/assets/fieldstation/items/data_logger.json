@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/data_logger",
+                  "type":  "minecraft:model"
+              }
+}

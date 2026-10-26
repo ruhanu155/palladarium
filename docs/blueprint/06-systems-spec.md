@@ -282,7 +282,7 @@ Populations are numbers stored on each habitat record. Only a few animals are sp
 
 - A biome modifier removes every monster spawn entry from every biome.
 - A spawn check rejects any remaining monster spawn as a backstop.
-- The world preset sets `minecraft:spawn_phantoms`, `minecraft:spawn_patrols`, `minecraft:spawn_wandering_traders` and `minecraft:raids` to false (check the exact 26.2 names at M0).
+- The world preset sets `minecraft:spawn_monsters`, `minecraft:spawn_phantoms`, `minecraft:spawn_patrols`, `minecraft:spawn_wandering_traders`, `minecraft:spawn_wardens` and `minecraft:raids` to false (verified in 26.2 `GameRules`).
 - Difficulty stays Normal so the mod's own energy rules apply, and no vanilla hunger damage stacks on top of them.
 
 The only danger in the game is losing the habitats you built.

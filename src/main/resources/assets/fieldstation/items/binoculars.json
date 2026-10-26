@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/binoculars",
+                  "type":  "minecraft:model"
+              }
+}

@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/rental_key",
+                  "type":  "minecraft:model"
+              }
+}

@@ -1,0 +1,37 @@
+{
+    "species":  "fieldstation:mottled_sculpin",
+    "group":  "fish",
+    "opening_clue":  {
+                         "kind":  "edna",
+                         "text_key":  "fieldstation.mystery.mottled_sculpin.opening"
+                     },
+    "clue_methods":  [
+                         "kick_net",
+                         "rock_flip"
+                     ],
+    "clues":  [
+                  {
+                      "rules_out":  "blacknose_dace",
+                      "reveals":  "season"
+                  },
+                  {
+                      "rules_out":  "brook_trout",
+                      "reveals":  "microhabitat"
+                  },
+                  {
+                      "rules_out":  "fantail_darter",
+                      "reveals":  "active_hours"
+                  }
+              ],
+    "decoys":  [
+                   "blacknose_dace",
+                   "brook_trout",
+                   "fantail_darter"
+               ],
+    "confirm_methods":  [
+                            "binoculars",
+                            "camera_trap",
+                            "capture",
+                            "sketch"
+                        ]
+}

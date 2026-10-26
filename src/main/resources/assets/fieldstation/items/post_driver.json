@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/post_driver",
+                  "type":  "minecraft:model"
+              }
+}

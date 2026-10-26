@@ -1,0 +1,7 @@
+{
+    "variants":  {
+                     "":  {
+                              "model":  "fieldstation:block/wood_duck_box"
+                          }
+                 }
+}

@@ -199,9 +199,9 @@ The browser prototypes (Mistwall and the Field Station base) become the design r
 
 The game is a mod for Minecraft: Java Edition. Minecraft already provides a block world at 1 m per block, first-person movement, inventory, beds, day and night, weather and biomes. The mod adds the systems that turn the land into a working ecosystem.
 
-**Target.** Java Edition 26.x. The current release is 26.3, from 15 September 2026. Versions are now numbered by year and drop, with roughly quarterly drops ([version history](https://www.gameserverkings.com/knowledge-base/minecraft/updating-your-server-version/)). Each milestone pins one version. Milestone 1 pins 26.2: the newest version with a stable NeoForge release (26.2.0.88) and NeoForge builds of Flowing Fluids (1.0.7) and GeckoLib (5.5.6). NeoForge for 26.3 is still beta. Move to 26.3 once Flowing Fluids supports it.
+**Target.** Java Edition 26.x. The current release is 26.3, from 15 September 2026. Versions are now numbered by year and drop, with roughly quarterly drops ([version history](https://www.gameserverkings.com/knowledge-base/minecraft/updating-your-server-version/)). Each milestone pins one version. Milestone 1 pins 26.2: the newest version with a stable NeoForge release (26.2.0.93) and NeoForge builds of Flowing Fluids (1.0.7) and GeckoLib (5.5.6). NeoForge for 26.3 is still beta. Move to 26.3 once Flowing Fluids supports it.
 
-**Loader.** Decided: NeoForge, single loader. It matches the studio's mod standard and Year of Ice, so both mods share conventions, tests and tooling. Toolchain: Java 25, Gradle 9.1 or later, ModDevGradle, NeoForge 26.2.0.88, Mojang names with no remapping. (This was Fabric until October 19; it switched before any code existed) ([loader comparison](https://www.icedfoxstudios.com/tutorials/fabric-vs-neoforge-minecraft-modding-2026/)).
+**Loader.** Decided: NeoForge, single loader. It matches the studio's mod standard and Year of Ice, so both mods share conventions, tests and tooling. Toolchain: Java 25, Gradle 9.1 or later, ModDevGradle 2.0.148, NeoForge 26.2.0.93, Mojang names with no remapping. (This was Fabric until October 19; it switched before any code existed) ([loader comparison](https://www.icedfoxstudios.com/tutorials/fabric-vs-neoforge-minecraft-modding-2026/)).
 
 **Engineering spec:** Minecraft development (pin, package map, naming, vanilla replacement, tests, performance, saves, modpack).
 
@@ -249,9 +249,9 @@ Other biomes and RV travel come after v1.0.
 
 ## Open decisions
 
-- [ ] Name of the game. "Field Station" is a working title.
+- [x] Name of the game and repo: repo is `ruhanu155/palladarium`, mod id `fieldstation` ("Field Station").
 - [x] Size and place of the first plot: decided. 200 × 200 blocks (about 10 acres) in a Southern Appalachian cove.
-- [ ] Does the RV move on the map, or only between biomes?
+- [x] Does the RV move on the map, or only between biomes? Decided: only between biomes (stays parked while you work a plot).
 - [x] Food and sleep: decided. A player option: off, comfort (default) or real. Nothing in any mode hurts the player (Player and tools → Food and sleep)
 - [x] Selling animals: phase 1 approved. Captive-bred animals are placed with programs for reputation and science credits, with no cash. Cash sales (phases 2 and 3) are decided after playtests.
 - [x] Players: decided. Solo only for now; a shared watershed for multiplayer is a later idea.
@@ -260,7 +260,7 @@ Other biomes and RV travel come after v1.0.
 - [x] Pace: decided. Growth and erosion stay fast, so change shows within a season.
 - [x] Moving the RV: decided. It stays parked while you work a plot and drives only between locations (concept in the Lab and RV tab).
 - [x] Loader: decided. NeoForge on Minecraft 26.2 (switched from Fabric to match the studio standard).
-- [ ] Use Flowing Fluids as a dependency, or write our own finite water from its ideas.
+- [x] Use Flowing Fluids as a dependency, or write our own finite water from its ideas: decided. Flowing Fluids in loaded chunks, our column model in unloaded chunks (Systems spec → Water ownership; verified in Test slice step 4).
 - [x] Vanilla survival: hostile mobs are off everywhere (decided). Also decided: no vanilla hunger; items come from a mix of crafting, drone-delivered purchases and earned reward drops.
 - [x] Where builds run: decided. Your Mac, with the code in git on GitHub.
 

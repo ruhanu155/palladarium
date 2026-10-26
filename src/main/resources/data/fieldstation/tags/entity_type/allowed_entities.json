@@ -1,0 +1,19 @@
+{
+    "replace":  false,
+    "values":  [
+                   "minecraft:frog",
+                   "minecraft:tadpole",
+                   "minecraft:turtle",
+                   "minecraft:salmon",
+                   "minecraft:cod",
+                   "minecraft:bat",
+                   "minecraft:bee",
+                   "minecraft:rabbit",
+                   "minecraft:fox",
+                   "minecraft:wolf",
+                   "minecraft:goat",
+                   "minecraft:mule",
+                   "minecraft:villager",
+                   "minecraft:allay"
+               ]
+}

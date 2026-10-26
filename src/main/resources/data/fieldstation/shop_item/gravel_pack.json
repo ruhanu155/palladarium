@@ -1,0 +1,9 @@
+{
+    "item":  "fieldstation:gravel_layer",
+    "count":  16,
+    "price_dollars":  30,
+    "tier":  "starter",
+    "category":  "material",
+    "delivery":  "drone",
+    "seasonal_price_multiplier":  1
+}

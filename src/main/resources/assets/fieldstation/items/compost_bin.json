@@ -1,0 +1,6 @@
+{
+    "model":  {
+                  "model":  "fieldstation:item/compost_bin",
+                  "type":  "minecraft:model"
+              }
+}
