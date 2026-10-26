@@ -1,0 +1,50 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="${mod_authors}"
+description='''${mod_description}'''
+
+# Mixins: at most 8, each whitelisted in fieldstation.mixins.json with its own test.
+# Add [[mixins]] config="fieldstation.mixins.json" when the first mixin lands.
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    type="required"
+    versionRange="${neo_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="flowing_fluids"
+    type="required"
+    versionRange="[1.0.7,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="geckolib"
+    type="required"
+    versionRange="[5.5.6,)"
+    ordering="AFTER"
+    side="BOTH"
+
+# Blocked mods (Definitions and rules -> Conflicts). Re-check at every pin move.
+[[dependencies.${mod_id}]]
+    modId="sereneseasons"
+    type="incompatible"
+    reason="Field Station owns the season clock."
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"

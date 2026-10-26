@@ -1,0 +1,43 @@
+import groovy.json.JsonSlurper
+
+// contentLint: enforces the studio data conventions on every JSON file under data/fieldstation/.
+//  - path is data/fieldstation/<kind>/<id>.json (one entry per file, no doubled namespace)
+//  - ids and file names are snake_case
+//  - every JSON key is snake_case (camelCase is rejected)
+tasks.register('contentLint') {
+    group = 'verification'
+    description = 'Checks data files against the Field Station naming conventions.'
+    def root = file('src/main/resources/data/fieldstation')
+    inputs.dir(root).optional()
+    doLast {
+        def errors = []
+        def snake = ~/^[a-z0-9_]+$/
+        def walk
+        walk = { Object node, String file, String path ->
+            if (node instanceof Map) {
+                node.each { k, v ->
+                    String key = k.toString()
+                    // allow namespaced keys such as "fieldstation:unlock"? no: keys must be plain snake_case
+                    if (!(key ==~ snake)) errors << "${file}: key '${path}${key}' is not snake_case"
+                    walk(v, file, "${path}${key}.")
+                }
+            } else if (node instanceof List) {
+                node.eachWithIndex { v, i -> walk(v, file, "${path}[${i}].") }
+            }
+        }
+        if (root.exists()) {
+            root.eachFileRecurse { f ->
+                if (!f.name.endsWith('.json')) return
+                def rel = root.toPath().relativize(f.toPath()).toString().replace('\\', '/')
+                if (rel.startsWith('fieldstation/')) errors << "${rel}: doubled namespace (data/fieldstation/fieldstation/...)"
+                def stem = f.name[0..-6]
+                if (!(stem ==~ snake)) errors << "${rel}: file name is not snake_case"
+                try { walk(new JsonSlurper().parse(f), rel, '') }
+                catch (Exception e) { errors << "${rel}: invalid JSON (${e.message})" }
+            }
+        }
+        if (errors) throw new GradleException("contentLint found ${errors.size()} problem(s):\n  " + errors.join('\n  '))
+        println 'contentLint: clean'
+    }
+}
+check.dependsOn 'contentLint'

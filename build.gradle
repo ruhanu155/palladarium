@@ -1,0 +1,80 @@
+plugins {
+    id 'java-library'
+    id 'idea'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+
+version = mod_version
+group = mod_group_id
+base { archivesName = mod_id }
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+repositories {
+    exclusiveContent {
+        forRepository { maven { name = 'Modrinth'; url = 'https://api.modrinth.com/maven' } }
+        filter { includeGroup 'maven.modrinth' }
+    }
+}
+
+neoForge {
+    version = project.neo_version
+    runs {
+        configureEach {
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            logLevel = org.slf4j.event.Level.INFO
+        }
+        client { client() }
+        server { server(); programArgument '--nogui' }
+        gameTestServer { type = 'gameTestServer' }
+        data {
+            clientData()
+            programArguments.addAll '--mod', project.mod_id, '--all',
+                '--output', file('src/generated/resources/').getAbsolutePath(),
+                '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+    }
+    mods { "${mod_id}" { sourceSet(sourceSets.main) } }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+dependencies {
+    implementation "maven.modrinth:flowing-fluids:${flowing_fluids_version}"
+    implementation "maven.modrinth:geckolib:${geckolib_version}"
+
+    testImplementation platform("org.junit:junit-bom:${junit_version}")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation "com.tngtech.archunit:archunit-junit5:${archunit_version}"
+}
+
+test { useJUnitPlatform() }
+
+var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
+    var props = [minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+                 neo_version: neo_version, neo_version_range: neo_version_range,
+                 loader_version_range: loader_version_range, mod_id: mod_id, mod_name: mod_name,
+                 mod_license: mod_license, mod_version: mod_version, mod_authors: mod_authors,
+                 mod_description: mod_description]
+    inputs.properties props
+    expand props
+    from 'src/main/templates'
+    into 'build/generated/sources/modMetadata'
+}
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+// ---- Studio checks ----
+apply from: 'gradle/content-lint.gradle'
+
+// SMOKE PASSED = build + unit/ArchUnit tests + contentLint + GameTest server.
+// The client smoke (virtual display) and 600-tick dedicated boot are added when there is game content to load.
+tasks.register('smoke') {
+    group = 'verification'
+    description = 'Studio smoke: build, tests, contentLint and the GameTest server.'
+    dependsOn 'build', 'contentLint', 'runGameTestServer'
+    doLast { println 'SMOKE PASSED' }
+}
