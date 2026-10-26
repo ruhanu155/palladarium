@@ -210,6 +210,23 @@ public final class FieldStationWorld {
                     "[Field Station] Surveyed all " + sim.habitats.size() + " habitats. Open mystery cards: " + sim.mysteryCards.size()), false);
                 return 1;
             }))
+            .then(Commands.literal("rain").executes(ctx -> {
+                CoveSim sim = FieldStationApi.sim();
+                sim.rainMmPerHour = 25.0f;
+                sim.advanceForTest(6);
+                ctx.getSource().sendSuccess(() -> Component.literal(
+                    "[Field Station] Simulated 6h rainstorm (25 mm/h)! Stream & ponds refilled."), false);
+                return 1;
+            }))
+            .then(Commands.literal("advance").executes(ctx -> {
+                CoveSim sim = FieldStationApi.sim();
+                sim.advanceForTest(24);
+                ctx.getSource().sendSuccess(() -> Component.literal(
+                    "[Field Station] Advanced 24 sim hours -> Year " + sim.year() + " " +
+                    CoveSim.SEASON_NAMES[sim.season()] + " Day " + sim.dayOfSeason() +
+                    " | Cash: $" + sim.cashDollars), false);
+                return 1;
+            }))
         );
     }
 
@@ -248,6 +265,10 @@ public final class FieldStationWorld {
         rules.set(GameRules.MAX_ENTITY_CRAMMING, 0, event.getServer());
 
         CoveSim sim = FieldStationApi.sim();
+        if (event.getServer().getTickCount() % 50 == 0) {
+            // 1 game hour every 50 server ticks (2.5 seconds -> 60s full day)
+            sim.stepOneGameHour(true);
+        }
         BlockPos.MutableBlockPos mpos = new BlockPos.MutableBlockPos();
         // Write up to 2500 dirty columns per tick (so the entire 200x200 Cove valley sculpts in ~16 ticks = <1 second!)
         int scanned = 0;
@@ -320,10 +341,10 @@ public final class FieldStationWorld {
                 // Surface flora / reeds / grass on full blocks
                 mpos.set(x, topBlockY, z);
                 if (sim.seeded[col] == CoveSim.SEED_REED) {
-                    Block cattail = FieldStationContent.REGISTERED_BLOCKS.get("broadleaf_cattail").get();
-                    overworld.setBlock(mpos, cattail.defaultBlockState(), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+                    Block rush = FieldStationContent.REGISTERED_BLOCKS.get("soft_rush").get();
+                    overworld.setBlock(mpos, rush.defaultBlockState(), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
                 } else if (sim.seeded[col] == CoveSim.SEED_GRASS && (x + z * 7) % 5 == 0) {
-                    Block grass = FieldStationContent.REGISTERED_BLOCKS.get("little_bluestem").get();
+                    Block grass = FieldStationContent.REGISTERED_BLOCKS.get("meadow_grass").get();
                     overworld.setBlock(mpos, grass.defaultBlockState(), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
                 } else {
                     overworld.setBlock(mpos, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
